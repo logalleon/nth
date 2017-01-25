@@ -1,0 +1,410 @@
+/** RESET **/
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/** FONTS **/
+@font-face {
+  src: url('Nouveau_IBM.ttf');
+  font-family: 'Nu';
+}
+
+@font-face {
+  src: url('nk57.ttf');
+  font-family: 'NK';
+}
+
+$p: .25rem;
+
+/** HEADINGS **/
+:root {
+  font-size: 20px;
+}
+
+/** COLOR MODS **/
+.nth {
+  color: green;
+  &:hover {
+    color: black;
+    background: green;
+  }
+  &.enabled {
+    border: 1px solid green;
+  }
+}
+.delta {
+  color: red;
+  &:hover {
+    color: black;
+    background: red;
+  }
+  &.enabled {
+    border: 1px solid red;
+  }
+}
+.Sigma {
+  color: purple;
+  &:hover {
+    color: black;
+    background: purple;
+  }
+  &.enabled {
+    border: 1px solid purple;
+  }
+}
+.Delta {
+  color: limegreen;
+  &:hover {
+    color: black;
+    background: limegreen;
+  }
+  &.enabled {
+    border: 1px solid limegreen;
+  }
+}
+.rho {
+  color: orange;
+  &:hover {
+    color: black;
+    background: orange;
+  }
+  &.enabled {
+    border: 1px solid orange;
+  }
+}
+.lambda {
+  color: gray;
+  &:hover {
+    color: black;
+    background: gray;
+  }
+  &.enabled {
+    border: 1px solid gray;
+  }
+}
+.pi {
+  color: yellow;
+  &:hover {
+    color: black;
+    background: yellow;
+  }
+  &.enabled {
+    border: 1px solid yellow;
+  }
+}
+.alpha {
+  color: aqua;
+  &:hover {
+    color: black;
+    background: aqua;
+  }
+  &.enabled {
+    border: 1px solid aqua;
+  }
+}
+.sigma {
+  color: brown;
+  &:hover {
+    color: black;
+    background: brown;
+  }
+  &.enabled {
+    border: 1px solid brown;
+  }
+}
+.Lambda {
+  color: pink;
+  &:hover {
+    color: black;
+    background: pink;
+  }
+  &.enabled {
+    border: 1px solid pink;
+  }
+}
+.omega {
+  color: magenta;
+  &:hover {
+    color: black;
+    background: magenta;
+  }
+  &.enabled {
+    border: 1px solid magenta;
+  }
+}
+.epsilon {
+  color: indigo;
+  &:hover {
+    color: black;
+    background: indigo;
+  }
+  &.enabled {
+    border: 1px solid indigo;
+  }
+}
+.Psi {
+  color: cyan;
+  &:hover {
+    color: black;
+    background: cyan;
+  }
+  &.enabled {
+    border: 1px solid cyan;
+  }
+}
+
+body {
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background-color: black;
+  font-family: Nu;
+  color: white;
+  #counter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    #wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 50%;
+      width: 100%;
+      #timer {
+        top: 1rem;
+        right: 1rem;
+        position: absolute;
+      }
+      #goal {
+        top: 2rem;
+        right: 1rem;
+        position: absolute;
+      }
+      #count {
+        padding-top: 20%;
+        width: 100%;
+        text-align: center;
+      }
+      #nth {
+        margin: 1rem auto;
+        text-align: center;
+        width: 60px;
+        padding: $p;
+        border: 1px solid green;
+        color: green;
+        &:hover {
+          border: 1px solid black;
+          color: black;
+          background-color: green;
+          cursor: pointer;
+        }
+      }
+    }
+    #instructions {
+      padding: 1rem;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 50%;
+      border-top: 1px solid white;
+      overflow-y: scroll;
+      width: 100%;
+      box-sizing: border-box;
+      #title {
+        text-align: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      #showUpgrades {
+        padding: $p*2;
+        text-align: center;
+        border: 1px solid gray;
+        color: gray;
+        margin: 1rem auto;
+        width: 70%;
+        cursor: pointer;
+        &:hover {
+          color: black;
+          background-color: gray;
+        }
+      }
+      #upgrades {
+        .upgrade {
+          padding: $p;
+          cursor: pointer;
+        }
+      }
+      p {
+        text-align: justify;
+      }
+    }
+  }
+  #adders {
+    border-left: 1px solid white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll;
+    .adder {
+      padding: 2*$p;
+      border: 1px solid white;
+      .name {
+        cursor: pointer;
+        padding: 0 2*$p;
+      }
+      .rate {
+
+      }
+      .total {
+        padding-left: 1em;
+      }
+      .count {
+        padding: $p;
+        display: block;
+        width: 100%;
+        font-size: 1.25rem;
+      }
+    }
+    #message {
+
+    }
+    #delta {
+      color: red;
+      &:hover .name {
+        color: black;
+        background: red;
+      }
+    }
+    #Sigma {
+      color: purple;
+      &:hover .name {
+        color: black;
+        background: purple;
+      }
+    }
+    #Delta {
+      color: limegreen;
+      &:hover .name {
+        color: black;
+        background: limegreen;
+      }
+    }
+    #rho {
+      color: orange;
+      &:hover .name {
+        color: black;
+        background: orange;
+      }
+    }
+    #lambda {
+      color: gray;
+      &:hover .name {
+        color: black;
+        background: gray;
+      }
+    }
+    #pi {
+      color: yellow;
+      &:hover .name {
+        color: black;
+        background: yellow;
+      }
+    }
+    #alpha {
+      color: aqua;
+      &:hover .name {
+        color: black;
+        background: aqua;
+      }
+    }
+    #sigma {
+      color: brown;
+      &:hover .name {
+        color: black;
+        background: brown;
+      }
+    }
+    #Lambda {
+      color: pink;
+      &:hover .name {
+        color: black;
+        background: pink;
+      }
+    }
+    #omega {
+      color: magenta;
+      &:hover .name {
+        color: black;
+        background: magenta;
+      }
+    }
+    #epsilon {
+      color: indigo;
+      &:hover .name {
+        color: black;
+        background: indigo;
+      }
+    }
+    #Psi {
+      color: cyan;
+      &:hover .name {
+        color: black;
+        background: cyan;
+      }
+    }
+  }
+}

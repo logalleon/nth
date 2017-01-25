@@ -1,0 +1,325 @@
+/** RESET **/
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/** FONTS **/
+@font-face {
+  src: url("Nouveau_IBM.ttf");
+  font-family: 'Nu'; }
+@font-face {
+  src: url("nk57.ttf");
+  font-family: 'NK'; }
+/** HEADINGS **/
+:root {
+  font-size: 20px; }
+
+/** COLOR MODS **/
+.nth {
+  color: green; }
+  .nth:hover {
+    color: black;
+    background: green; }
+  .nth.enabled {
+    border: 1px solid green; }
+
+.delta {
+  color: red; }
+  .delta:hover {
+    color: black;
+    background: red; }
+  .delta.enabled {
+    border: 1px solid red; }
+
+.Sigma {
+  color: purple; }
+  .Sigma:hover {
+    color: black;
+    background: purple; }
+  .Sigma.enabled {
+    border: 1px solid purple; }
+
+.Delta {
+  color: limegreen; }
+  .Delta:hover {
+    color: black;
+    background: limegreen; }
+  .Delta.enabled {
+    border: 1px solid limegreen; }
+
+.rho {
+  color: orange; }
+  .rho:hover {
+    color: black;
+    background: orange; }
+  .rho.enabled {
+    border: 1px solid orange; }
+
+.lambda {
+  color: gray; }
+  .lambda:hover {
+    color: black;
+    background: gray; }
+  .lambda.enabled {
+    border: 1px solid gray; }
+
+.pi {
+  color: yellow; }
+  .pi:hover {
+    color: black;
+    background: yellow; }
+  .pi.enabled {
+    border: 1px solid yellow; }
+
+.alpha {
+  color: aqua; }
+  .alpha:hover {
+    color: black;
+    background: aqua; }
+  .alpha.enabled {
+    border: 1px solid aqua; }
+
+.sigma {
+  color: brown; }
+  .sigma:hover {
+    color: black;
+    background: brown; }
+  .sigma.enabled {
+    border: 1px solid brown; }
+
+.Lambda {
+  color: pink; }
+  .Lambda:hover {
+    color: black;
+    background: pink; }
+  .Lambda.enabled {
+    border: 1px solid pink; }
+
+.omega {
+  color: magenta; }
+  .omega:hover {
+    color: black;
+    background: magenta; }
+  .omega.enabled {
+    border: 1px solid magenta; }
+
+.epsilon {
+  color: indigo; }
+  .epsilon:hover {
+    color: black;
+    background: indigo; }
+  .epsilon.enabled {
+    border: 1px solid indigo; }
+
+.Psi {
+  color: cyan; }
+  .Psi:hover {
+    color: black;
+    background: cyan; }
+  .Psi.enabled {
+    border: 1px solid cyan; }
+
+body {
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background-color: black;
+  font-family: Nu;
+  color: white; }
+  body #counter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%; }
+    body #counter #wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 50%;
+      width: 100%; }
+      body #counter #wrap #timer {
+        top: 1rem;
+        right: 1rem;
+        position: absolute; }
+      body #counter #wrap #goal {
+        top: 2rem;
+        right: 1rem;
+        position: absolute; }
+      body #counter #wrap #count {
+        padding-top: 20%;
+        width: 100%;
+        text-align: center; }
+      body #counter #wrap #nth {
+        margin: 1rem auto;
+        text-align: center;
+        width: 60px;
+        padding: 0.25rem;
+        border: 1px solid green;
+        color: green; }
+        body #counter #wrap #nth:hover {
+          border: 1px solid black;
+          color: black;
+          background-color: green;
+          cursor: pointer; }
+    body #counter #instructions {
+      padding: 1rem;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 50%;
+      border-top: 1px solid white;
+      overflow-y: scroll;
+      width: 100%;
+      box-sizing: border-box; }
+      body #counter #instructions #title {
+        text-align: center;
+        font-size: 1.5rem;
+        cursor: pointer; }
+      body #counter #instructions #showUpgrades {
+        padding: 0.5rem;
+        text-align: center;
+        border: 1px solid gray;
+        color: gray;
+        margin: 1rem auto;
+        width: 70%;
+        cursor: pointer; }
+        body #counter #instructions #showUpgrades:hover {
+          color: black;
+          background-color: gray; }
+      body #counter #instructions #upgrades .upgrade {
+        padding: 0.25rem;
+        cursor: pointer; }
+      body #counter #instructions p {
+        text-align: justify; }
+  body #adders {
+    border-left: 1px solid white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll; }
+    body #adders .adder {
+      padding: 0.5rem;
+      border: 1px solid white; }
+      body #adders .adder .name {
+        cursor: pointer;
+        padding: 0 0.5rem; }
+      body #adders .adder .total {
+        padding-left: 1em; }
+      body #adders .adder .count {
+        padding: 0.25rem;
+        display: block;
+        width: 100%;
+        font-size: 1.25rem; }
+    body #adders #delta {
+      color: red; }
+      body #adders #delta:hover .name {
+        color: black;
+        background: red; }
+    body #adders #Sigma {
+      color: purple; }
+      body #adders #Sigma:hover .name {
+        color: black;
+        background: purple; }
+    body #adders #Delta {
+      color: limegreen; }
+      body #adders #Delta:hover .name {
+        color: black;
+        background: limegreen; }
+    body #adders #rho {
+      color: orange; }
+      body #adders #rho:hover .name {
+        color: black;
+        background: orange; }
+    body #adders #lambda {
+      color: gray; }
+      body #adders #lambda:hover .name {
+        color: black;
+        background: gray; }
+    body #adders #pi {
+      color: yellow; }
+      body #adders #pi:hover .name {
+        color: black;
+        background: yellow; }
+    body #adders #alpha {
+      color: aqua; }
+      body #adders #alpha:hover .name {
+        color: black;
+        background: aqua; }
+    body #adders #sigma {
+      color: brown; }
+      body #adders #sigma:hover .name {
+        color: black;
+        background: brown; }
+    body #adders #Lambda {
+      color: pink; }
+      body #adders #Lambda:hover .name {
+        color: black;
+        background: pink; }
+    body #adders #omega {
+      color: magenta; }
+      body #adders #omega:hover .name {
+        color: black;
+        background: magenta; }
+    body #adders #epsilon {
+      color: indigo; }
+      body #adders #epsilon:hover .name {
+        color: black;
+        background: indigo; }
+    body #adders #Psi {
+      color: cyan; }
+      body #adders #Psi:hover .name {
+        color: black;
+        background: cyan; }
+
+/*# sourceMappingURL=main.css.map */
