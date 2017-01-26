@@ -44,12 +44,12 @@ gulp.task('reload', function () {
 gulp.task('compile', function () {
   return gulp.src('./src/index.js')
     .pipe(sourcemaps.init())
-    .pipe(browserify())
+    .pipe(browserify({debug: true}))
     .on('error', function (err) {
       console.log(err);
       this.emit('end');
     })
-    .pipe(sourcemaps.write('./maps'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(__dirname));
 });
 
