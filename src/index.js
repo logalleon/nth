@@ -1,4 +1,4 @@
-/* global floor */
+/* global frameRate */
 var Nth = require('./classes/Nth');
 
 // Globals
@@ -13,7 +13,8 @@ var stretch = false,
   $intro,
   $timer,
   $goal,
-  $names;
+  $names,
+  $totalRate;
 /**
  * Wrapper
  */
@@ -50,6 +51,7 @@ window.setup = function () {
   $intro = dg('intro');
   $timer = dg('timer');
   $goal = dg('goal');
+  $totalRate = dg('totalRate');
   $names = document.querySelectorAll('.name');
 
   game = new Nth({
@@ -59,6 +61,7 @@ window.setup = function () {
     $showUpgrades: $showUpgrades,
     $timer: $timer,
     $intro: $intro,
+    $totalRate: $totalRate
   });
   game.initialize();
 
@@ -73,6 +76,8 @@ window.setup = function () {
   $showUpgrades.onclick = game.showUpgrades.bind(game);
   $goal.innerHTML = 'goal: ' + game.goal;
   game.runTimer();
+  // Lock FPS to 30
+  frameRate(30);
 };
 
 /**
@@ -83,12 +88,11 @@ window.draw = function () {
   if (game.addersHaveChanged) {
     game.updateAddersAndGrowthRate();
   }
-  // Increased the game count if not paused or calculating
-  if (game.calculating) {
-  } else if (game.paused) {
+  // Increased the game count if not paused
+  if (game.paused) {
   } else {
     game.grow();
     // Show this increase
-    $count.innerHTML = floor(game.count);
+    $count.innerHTML = game.getCountHtml();
   }
 };

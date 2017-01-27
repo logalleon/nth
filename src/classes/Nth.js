@@ -19,6 +19,7 @@ var Nth = function (options) {
   this.$timer = options.$timer;
   this.$showUpgrades = options.$showUpgrades;
   this.$intro = options.$intro;
+  this.$totalRate = options.$totalRate;
 };
 
 Nth.prototype.initialize = function () {
@@ -47,25 +48,9 @@ Nth.prototype.initialize = function () {
   this.growthRate = 0;
   this.addersHaveChanged = true;
   this.paused = false;
-  this.calculating = false;
   // These upgrades should be classes and they should modify adders
   // through a method of the adders themselves
   this.upgrades = require('../data/Upgrades');
-};
-
-/**
- * Updates the internal state of calculating and the DOM
- */
-Nth.prototype.toggleCalculating = function () {
-  if (!this.calculating) {
-    this.$message.innerHTML = 'calculating . . .';
-    this.$count.innerHTML = '~~~ ' + floor(this.count) + ' ~~~';
-    this.calculating = true;
-  } else {
-    this.$message.innerHTML = 'finished calculation';
-    this.$count.innerHTML = this.count;
-    this.calculating = false;
-  }
 };
 
 /**
@@ -151,7 +136,7 @@ Nth.prototype.updateAddersAndGrowthRate = function () {
     // Only show cost, count, and rate if unlocked
     if (a.unlocked) {
       var $cost = document.querySelectorAll('#' + adder + ' .cost')[0];
-      $cost.innerHTML = a.costHtml();
+      $cost.innerHTML = a.getCostHtml();
       var $count = document.querySelectorAll('#' + adder + ' .count')[0];
       var str = '';
       for (var i = 0; i < a.count; i++) {
@@ -172,6 +157,8 @@ Nth.prototype.updateAddersAndGrowthRate = function () {
       this.growthRate += a.count * a.rate;
     }
   }
+  // Update the total growth rate
+  this.$totalRate.innerHTML = 'rate: ' + this.growthRate.toFixed(3);
   this.addersHaveChanged = false;
 };
 
@@ -227,6 +214,13 @@ Nth.prototype.playUpgradeSound = function (id) {
   var audio = document.getElementById('nth_upgrade_id_' + id);
   audio.currentTime = 0;
   audio.play();
+};
+
+/**
+ * Gets the formatted count html
+ */
+Nth.prototype.getCountHtml = function () {
+  return floor(this.count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
 module.exports = Nth;

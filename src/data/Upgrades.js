@@ -38,10 +38,100 @@ var Upgrades = [{
   {
     id : 2,
     target :'Sigma',
-    cost : 25000,
+    cost : 25,
     desc : 'increases Sigma rate to 0.14',
     enable : function (nth) {
       nth.adders.Sigma.rate = 0.14;
+    }
+  },
+  {
+    id : 3,
+    target :'Delta',
+    cost : 25,
+    desc : 'increases Delta rate to 0.14',
+    enable : function (nth) {
+      nth.adders.Delta.rate = 0.14;
+    }
+  },
+  {
+    id : 4,
+    target :'rho',
+    cost : 25,
+    desc : 'increases rho rate to 0.14',
+    enable : function (nth) {
+      nth.adders.rho.rate = 0.14;
+    }
+  },
+  {
+    id : 5,
+    target :'lambda',
+    cost : 25,
+    desc : 'increases lambda rate to 0.14',
+    enable : function (nth) {
+      nth.adders.lambda.rate = 0.14;
+    }
+  },
+  {
+    id : 6,
+    target :'pi',
+    cost : 25,
+    desc : 'increases pi rate to 0.14',
+    enable : function (nth) {
+      nth.adders.pi.rate = 0.14;
+    }
+  },
+  {
+    id : 7,
+    target :'alpha',
+    cost : 25,
+    desc : 'increases alpha rate to 0.14',
+    enable : function (nth) {
+      nth.adders.alpha.rate = 0.14;
+    }
+  },
+  {
+    id : 8,
+    target :'sigma',
+    cost : 25,
+    desc : 'increases sigma rate to 0.14',
+    enable : function (nth) {
+      nth.adders.sigma.rate = 0.14;
+    }
+  },
+  {
+    id : 9,
+    target :'Lambda',
+    cost : 25,
+    desc : 'increases Lambda rate to 0.14',
+    enable : function (nth) {
+      nth.adders.Lambda.rate = 0.14;
+    }
+  },
+  {
+    id : 10,
+    target :'omega',
+    cost : 25,
+    desc : 'increases omega rate to 0.14',
+    enable : function (nth) {
+      nth.adders.omega.rate = 0.14;
+    }
+  },
+  {
+    id : 11,
+    target :'epsilon',
+    cost : 25,
+    desc : 'increases epsilon rate to 0.14',
+    enable : function (nth) {
+      nth.adders.epsilon.rate = 0.14;
+    }
+  },
+  {
+    id : 12,
+    target :'Psi',
+    cost : 25,
+    desc : 'increases Psi rate to 0.14',
+    enable : function (nth) {
+      nth.adders.Psi.rate = 0.14;
     }
   }
 ];

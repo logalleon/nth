@@ -1,4 +1,5 @@
 
+/* global floor */
 /**
  * Adders increase the rate at which the Nth count grows
  */
@@ -7,7 +8,6 @@ var Adder = function (options) {
   this.update = options.updateFn;
   this.generateR = options.rFn;
   this.cost = options.costFn;
-  this.costHtml = options.costHtmlFn;
   this.name = options.name;
 
   // Audio assets
@@ -30,6 +30,13 @@ Adder.prototype.initialize = function () {
       document.body.appendChild(audio);
     }
   }
+};
+
+/**
+ * Gets the HTML string of the cost
+ */
+Adder.prototype.getCostHtml = function () {
+  return '[' + floor(this.cost()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ']';
 };
 
 /**
