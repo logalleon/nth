@@ -80,7 +80,7 @@ window.setup = function () {
  */
 window.draw = function () {
   // Update the dom, internal adders, and growthRate
-  if (game.addersChanged) {
+  if (game.addersHaveChanged) {
     game.updateAddersAndGrowthRate();
   }
   // Increased the game count if not paused or calculating

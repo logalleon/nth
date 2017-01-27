@@ -1,4 +1,5 @@
 
+/* global floor, random */
 /**
  * @schema
  * rate @type {Number} - the per adder growth rate
@@ -9,7 +10,7 @@
  */
 var Adders = {
   delta: {
-    count : 0,
+    name: 'delta',
     rate : 0.001,
     rFn: function () {
       return 1;
@@ -18,11 +19,15 @@ var Adders = {
       return (this.count * 10) + 10;
     },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/delta_build.wav',
+      upgrade: '/sounds/delta_upgrade.wav'
     }
   },
   Sigma: {
-    count : 0,
+    name: 'Sigma',
     rate : 0.005,
     rFn: function () {
       return floor(random(5,10));
@@ -34,11 +39,15 @@ var Adders = {
       return ((this.count + 1) * 25) + this.r;
     },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/big_sigma_build.wav',
+      upgrade: '/sounds/big_sigma_upgrade.wav'
     }
   },
   Delta: {
-    count : 0,
+    name: 'Delta',
     rate : 0.01,
     rFn: function () {
       return floor(random(50,150));
@@ -50,11 +59,13 @@ var Adders = {
       return ((this.count + 1) * 100) + this.r;
     },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/big_delta_build.wav'
     }
   },
   rho: {
-    count : 0,
     rate : 0.08,
     rFn: function () {
       return floor(random(50,150));
@@ -62,18 +73,17 @@ var Adders = {
     update : function () {
       this.r = this.count * floor(random(50,150));
     },
-    calculate : function (next) {
-      setTimeout(next, floor(random(500,3000)));
-    },
     costFn: function () {
       return ((this.count + 1) * 225) + this.r;
     },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   lambda: {
-    count : 0,
     rate : 0.14,
     rFn: function () {
       return 1;
@@ -82,11 +92,13 @@ var Adders = {
       return (this.count * this.count * 1500);
     },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   pi: {
-    count : 0,
     rate : 0.8,
     rFn: function () {
       return Math.PI * this.count * 10000;
@@ -94,15 +106,14 @@ var Adders = {
     costFn: function () {
       return (this.count + 1 * 12000) + this.r + floor(random(1,20000));
     },
-    calculate : function (next) {
-      setTimeout(next, floor(random(1500,5000)));
-    },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   alpha: {
-    count : 0,
     rate : 1.77,
     rFn: function () {
       return floor(random(2000,3000));
@@ -114,11 +125,13 @@ var Adders = {
       return (this.count * 40000) + this.r;
     },
     costHtmlFn : function () {
-      return "\t[" + this.cost().toFixed(3)  + "]";
+      return '\t[' + this.cost().toFixed(3)  + ']';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   sigma: {
-    count : 0,
     rate : 3.5,
     rFn: function () {
       return 1;
@@ -127,11 +140,13 @@ var Adders = {
 
     },
     costHtmlFn : function () {
-      return "";
+      return '';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   Lambda: {
-    count : 0,
     rFn: function () {
       return 1;
     },
@@ -139,11 +154,13 @@ var Adders = {
 
     },
     costHtmlFn : function () {
-      return "";
+      return '';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   omega: {
-    count : 0,
     rFn: function () {
       return 1;
     },
@@ -151,11 +168,13 @@ var Adders = {
 
     },
     costHtmlFn : function () {
-      return "";
+      return '';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   epsilon: {
-    count : 0,
     rFn: function () {
       return 1;
     },
@@ -163,11 +182,13 @@ var Adders = {
 
     },
     costHtmlFn : function () {
-      return "";
+      return '';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   },
   Psi: {
-    count : 0,
     rFn: function () {
       return 1;
     },
@@ -175,7 +196,10 @@ var Adders = {
 
     },
     costHtmlFn : function () {
-      return "";
+      return '';
+    },
+    audio: {
+      build: '/sounds/rho_build.wav'
     }
   }
 };

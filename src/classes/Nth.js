@@ -28,10 +28,16 @@ Nth.prototype.initialize = function () {
     this.adders[adder] = new Adder(Adders[adder]);
     this.adders[adder].initialize();
   }
+
+  // @TODO make volume controls
+  document.querySelectorAll('audio').forEach(function (audio) {
+    audio.volume = 0.1;
+  });
+
   // Unlock little delta by default
   this.adders.delta.unlocked = true;
   // The total count used for purchasing adders
-  this.count = 0;
+  this.count = 100000;
   // Number to increaes count by for each click
   this.clickValue = 1;
   // Time in seconds
@@ -39,38 +45,12 @@ Nth.prototype.initialize = function () {
   // Goal to get to
   this.goal = 1000000;
   this.growthRate = 0;
-  this.addersChanged = true;
+  this.addersHaveChanged = true;
   this.paused = false;
   this.calculating = false;
   // These upgrades should be classes and they should modify adders
   // through a method of the adders themselves
-  this.upgrades = [{
-    id : 0,
-    class : "nth",
-    cost : 450,
-    desc : "increases nth value to 2",
-    enable : function () {
-      this.clickValue = 2;
-    }
-  },
-  {
-    id : 1,
-    class : "delta",
-    cost : 6500,
-    desc : "increases delta rate to 0.03",
-    enable : function () {
-      this.adders.delta.rate = 0.03;
-    }
-  },
-  {
-    id : 2,
-    class :"Sigma",
-    cost : 25000,
-    desc : "increases Sigma rate to 0.14",
-    enable : function () {
-      this.adders.Sigma.rate = 0.14;
-    }
-  }];
+  this.upgrades = require('../data/Upgrades');
 };
 
 /**
@@ -78,11 +58,11 @@ Nth.prototype.initialize = function () {
  */
 Nth.prototype.toggleCalculating = function () {
   if (!this.calculating) {
-    this.$message.innerHTML = "calculating . . .";
-    this.$count.innerHTML = "~~~ " + floor(this.count) + " ~~~";
+    this.$message.innerHTML = 'calculating . . .';
+    this.$count.innerHTML = '~~~ ' + floor(this.count) + ' ~~~';
     this.calculating = true;
   } else {
-    this.$message.innerHTML = "finished calculation";
+    this.$message.innerHTML = 'finished calculation';
     this.$count.innerHTML = this.count;
     this.calculating = false;
   }
@@ -90,12 +70,10 @@ Nth.prototype.toggleCalculating = function () {
 
 /**
  * Attempts to purchase an adder
- * @param {String} id - id of the adder
+ * @param {String} name - name of the adder
  */
-Nth.prototype.purchase = function (id) {
-  console.log(this);
-  var adder = this.adders[id];
-  console.log(this.adders)
+Nth.prototype.purchase = function (name) {
+  var adder = this.adders[name];
   // You can only attempt to purchase unlocked adders
   if (adder.unlocked) {
     var cost = adder.cost();
@@ -104,36 +82,28 @@ Nth.prototype.purchase = function (id) {
       this.count -= cost;
       // Increment the number of owned adders of that type
       adder.count++;
-      this.addersChanged = true;
-      this.$message.innerHTML = "purchased " + id + ".";
+      this.addersHaveChanged = true;
+      // Update DOM
+      this.$message.innerHTML = 'purchased ' + name + '.';
+      // Play audio
+      adder.playBuildSound();
       // If there's an update function on the adder, update
       if (adder.update) {
         adder.update();
       }
-      // If there's a calculate function, run it only
-      // if another calculator isn't running
-      if (!this.calculating && adder.calculate) {
-        this.toggleCalculating();
-        // Calculate takes and amount of time depending on
-        // the adder's calculate function
-        var which = this;
-        adder.calculate(function () {
-          which.toggleCalculating();
-        });
-      }
       // The first time something is purchased, unlock the next
       if (adder.count === 1) {
-        var next = dg(id).nextSibling.nextSibling;
+        var next = window.dg(name).nextSibling.nextSibling;
         if (next) {
           this.adders[next.id].unlocked = true;
-          this.$message.innerHTML += " unlocked " + next.id + ".";
+          this.$message.innerHTML += ' unlocked ' + next.id + '.';
         }
       }
     } else {
-      this.$message.innerHTML = "cannot afford to purchase " + id;
+      this.$message.innerHTML = 'cannot afford to purchase ' + name;
     }
   } else {
-    this.$message.innerHTML = id + " has not been unlocked yet.";
+    this.$message.innerHTML = name + ' has not been unlocked yet.';
   }
 };
 
@@ -144,17 +114,16 @@ Nth.prototype.purchase = function (id) {
 Nth.prototype.showUpgrades = function () {
   this.$intro.remove();
   this.$showUpgrades.remove();
-  console.log(this);
   this.upgrades.forEach(function (upgrade) {
     var div = document.createElement('div');
-    div.classList += 'upgrade ' + upgrade.class;
+    div.classList += 'upgrade ' + upgrade.target;
     div.innerHTML = upgrade.desc + '\t[' + upgrade.cost + ']';
-    div.onclick = function () {
+    div.onclick = function (e) {
       this.purchaseUpgrade(upgrade.id);
       if (upgrade.enabled) {
-        this.classList += ' enabled';
+        e.target.classList += ' enabled';
       }
-    };
+    }.bind(this);
     this.$upgrades.appendChild(div);
   }.bind(this));
 };
@@ -164,7 +133,7 @@ Nth.prototype.showUpgrades = function () {
  */
 Nth.prototype.addCount = function () {
   this.count += this.clickValue;
-  this.$message.innerHTML = ". . .";
+  this.$message.innerHTML = '. . .';
 };
 
 /**
@@ -184,18 +153,18 @@ Nth.prototype.updateAddersAndGrowthRate = function () {
       var $cost = document.querySelectorAll('#' + adder + ' .cost')[0];
       $cost.innerHTML = a.costHtml();
       var $count = document.querySelectorAll('#' + adder + ' .count')[0];
-      var str = "";
+      var str = '';
       for (var i = 0; i < a.count; i++) {
-        str += "&" + adder + ";";
+        str += '&' + adder + ';';
       }
-      this.$count.innerHTML = str || "-";
+      $count.innerHTML = str || '-';
       var $total = document.querySelectorAll('#' + adder + ' .total')[0];
-      $total.innerHTML = adder + " total " + a.count;
+      $total.innerHTML = adder + ' total ' + a.count;
       var $rate = document.querySelectorAll('#' + adder + ' .rate')[0];
       if (a.count) {
-        $rate.innerHTML = "rate: " + a.count * a.rate.toFixed(3);
+        $rate.innerHTML = 'rate: ' + (a.count * a.rate).toFixed(3);
       } else {
-        $rate.innerHTML = "rate: {" + a.rate.toFixed(3) + "}";
+        $rate.innerHTML = 'rate: {{' + a.rate.toFixed(3) + '}}';
       }
     }
     // If there's at least one adder, update the growthRate
@@ -203,31 +172,61 @@ Nth.prototype.updateAddersAndGrowthRate = function () {
       this.growthRate += a.count * a.rate;
     }
   }
-  this.addersChanged = false;
+  this.addersHaveChanged = false;
 };
 
+/**
+ * Purchases the upgrade or responds that the upgrade can't be purchsed
+ * @param {Number} id - the id of the upgrade
+ */
 Nth.prototype.purchaseUpgrade = function (id) {
-  var upgrade = this.upgrades[id];
-  // Can't rebuy
+  var upgrade;
+  // Gets the upgrade with the id provided
+  for (var i = 0; i < this.upgrades.length; i++) {
+    if (this.upgrades[i].id == id) {
+      upgrade = this.upgrades[i];
+      break;
+    }
+  }
+  // Can't rebuy purchased upgrades
   if (!upgrade.enabled) {
     // Only buy if affordable
     if (this.count >= upgrade.cost) {
       this.count -= upgrade.cost;
-      upgrade.enable();
+      upgrade.enable(this);
       upgrade.enabled = true;
-      this.addersChanged = true;
+      // Play the upgrade sound for the target
+      if (upgrade.target === 'nth') {
+        this.playUpgradeSound(upgrade.id);
+      } else {
+        this.adders[upgrade.target].playUpgradeSound();
+      }
+      // Tell P5 things have changed
+      this.addersHaveChanged = true;
     } else {
-      this.$message.innerHTML = "cannot afford upgrade for " + upgrade.class + ".";
+      this.$message.innerHTML = 'cannot afford upgrade for ' + upgrade.target + '.';
     }
   } else {
-    this.$message.innerHTML = "cannot rebuy upgrade.";
+    this.$message.innerHTML = 'cannot rebuy upgrade.';
   }
 };
 
+/**
+ * Runs the game timer, updating the game and the DOM simultaneously
+ */
 Nth.prototype.runTimer = function () {
   this.gameTime++;
-  this.$timer.innerHTML = this.gameTime + "s";
+  this.$timer.innerHTML = this.gameTime + 's';
   setTimeout(this.runTimer.bind(this), 1000);
+};
+
+/**
+ * @param {Number} id - the upgrade id
+ */
+Nth.prototype.playUpgradeSound = function (id) {
+  var audio = document.getElementById('nth_upgrade_id_' + id);
+  audio.currentTime = 0;
+  audio.play();
 };
 
 module.exports = Nth;

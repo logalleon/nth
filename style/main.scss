@@ -241,7 +241,7 @@ body {
         margin: 1rem auto;
         text-align: center;
         width: 60px;
-        padding: $p;
+        padding: $p * 2 $p * 4;
         border: 1px solid green;
         color: green;
         &:hover {
@@ -284,6 +284,9 @@ body {
         .upgrade {
           padding: $p;
           cursor: pointer;
+          &.enabled {
+            text-decoration: line-through;
+          }
         }
       }
       p {
