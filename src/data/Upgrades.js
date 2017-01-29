@@ -14,7 +14,8 @@
  *    @param {Object<Nth>} nth - the game object is ALWAYS
  *    passed to the enable function
  */
-var Upgrades = [{
+var Upgrades = [
+  {
     id : 0,
     target : 'nth',
     cost : 450,
@@ -24,6 +25,11 @@ var Upgrades = [{
      */
     enable : function (nth) {
       nth.clickValue = 2;
+      document.getElementById('wrap').style.animation = 'nth_upgrade_id_0 ' + this.duration / 30 + 's 1';
+    },
+    duration: 300,
+    cb: function () {
+      document.getElementById('wrap').style.animation = '';
     }
   },
   {
@@ -38,10 +44,22 @@ var Upgrades = [{
   {
     id : 2,
     target :'Sigma',
-    cost : 25,
+    cost : 12000,
     desc : 'increases Sigma rate to 0.14',
     enable : function (nth) {
       nth.adders.Sigma.rate = 0.14;
+    }
+  },
+  {
+    id : 13,
+    target : 'nth',
+    cost : 2000,
+    desc : 'increases nth value to 3',
+    /**
+     * @description - modifies the click value of the game
+     */
+    enable : function (nth) {
+      nth.clickValue = 3;
     }
   },
   {

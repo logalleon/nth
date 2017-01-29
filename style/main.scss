@@ -4,6 +4,8 @@
    License: none (public domain)
 */
 
+@import 'upgrade_animations';
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -198,6 +200,26 @@ $p: .25rem;
   }
 }
 
+@mixin adder($color: white) {
+  color: $color;
+  box-sizing: border-box;
+  &:hover .name {
+    color: black;
+    background: $color;
+  }
+  &.adder--buffed {
+    border: 4px dotted $color;
+  }
+  &.adder--ultraBuffed {
+    background-color: $color;
+    color: invert($color);
+    &:hover .name {
+      color: $color;
+      background: invert($color);
+    }
+  }
+}
+
 body {
   user-select: none;
   -ms-user-select: none;
@@ -306,10 +328,10 @@ body {
     right: 0;
     width: 50%;
     height: 100%;
-    overflow-y: scroll;
+    overflow-x: scroll;
     .adder {
       padding: 2*$p;
-      border: 1px solid white;
+      border: 2px solid white;
       .name {
         cursor: pointer;
         padding: 0 2*$p;
@@ -331,88 +353,40 @@ body {
 
     }
     #delta {
-      color: red;
-      &:hover .name {
-        color: black;
-        background: red;
-      }
+      @include adder(red);
     }
     #Sigma {
-      color: purple;
-      &:hover .name {
-        color: black;
-        background: purple;
-      }
+      @include adder(purple);
     }
     #Delta {
-      color: limegreen;
-      &:hover .name {
-        color: black;
-        background: limegreen;
-      }
+      @include adder(limegreen);
     }
     #rho {
-      color: orange;
-      &:hover .name {
-        color: black;
-        background: orange;
-      }
+      @include adder(orange);
     }
     #lambda {
-      color: gray;
-      &:hover .name {
-        color: black;
-        background: gray;
-      }
+      @include adder(yellowgreen);
     }
     #pi {
-      color: yellow;
-      &:hover .name {
-        color: black;
-        background: yellow;
-      }
+      @include adder(yellow);
     }
     #alpha {
-      color: aqua;
-      &:hover .name {
-        color: black;
-        background: aqua;
-      }
+      @include adder(aqua);
     }
     #sigma {
-      color: brown;
-      &:hover .name {
-        color: black;
-        background: brown;
-      }
+      @include adder(rebeccapurple);
     }
     #Lambda {
-      color: pink;
-      &:hover .name {
-        color: black;
-        background: pink;
-      }
+      @include adder(pink);
     }
     #omega {
-      color: magenta;
-      &:hover .name {
-        color: black;
-        background: magenta;
-      }
+      @include adder(magenta);
     }
     #epsilon {
-      color: indigo;
-      &:hover .name {
-        color: black;
-        background: indigo;
-      }
+      @include adder(indigo);
     }
     #Psi {
-      color: cyan;
-      &:hover .name {
-        color: black;
-        background: cyan;
-      }
+      @include adder(cyan);
     }
   }
 }

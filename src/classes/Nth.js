@@ -20,6 +20,16 @@ var Nth = function (options) {
   this.$showUpgrades = options.$showUpgrades;
   this.$intro = options.$intro;
   this.$totalRate = options.$totalRate;
+  this.$nth = options.$nth;
+
+  /**
+   * An array of durations and callbacks to be updated each tick
+   */
+  this.upgradesWithDuration = [];
+  /**
+   * Flags the upgrades array for a slice operation
+   */
+  this.upgradesWithDurationArrayNeedsCleanup = false;
 };
 
 Nth.prototype.initialize = function () {
@@ -117,6 +127,7 @@ Nth.prototype.showUpgrades = function () {
  * Adds click value when nth button is pressed
  */
 Nth.prototype.addCount = function () {
+  this.playNthSound();
   this.count += this.clickValue;
   this.$message.innerHTML = '. . .';
 };
@@ -125,7 +136,14 @@ Nth.prototype.addCount = function () {
  * Grows the count
  */
 Nth.prototype.grow = function () {
-  this.count += this.growthRate;
+  if (this.count + this.growthRate >= this.goal) {
+    this.count = this.goal;
+    this.stopTimer();
+    this.$nth.onclick = function () {};
+    this.$nth.innerText = 'You Win';
+  } else {
+    this.count += this.growthRate;
+  }
 };
 
 Nth.prototype.updateAddersAndGrowthRate = function () {
@@ -188,6 +206,13 @@ Nth.prototype.purchaseUpgrade = function (id) {
       } else {
         this.adders[upgrade.target].playUpgradeSound();
       }
+      // Add the upgrade to the upgradesWithDuration array if applicable
+      if (upgrade.duration) {
+        this.upgradesWithDuration.push({
+          duration: upgrade.duration,
+          cb: upgrade.cb
+        });
+      }
       // Tell P5 things have changed
       this.addersHaveChanged = true;
     } else {
@@ -204,7 +229,11 @@ Nth.prototype.purchaseUpgrade = function (id) {
 Nth.prototype.runTimer = function () {
   this.gameTime++;
   this.$timer.innerHTML = this.gameTime + 's';
-  setTimeout(this.runTimer.bind(this), 1000);
+  this.timerId = setTimeout(this.runTimer.bind(this), 1000);
+};
+
+Nth.prototype.stopTimer = function () {
+  clearTimeout(this.timerId);
 };
 
 /**
@@ -221,6 +250,35 @@ Nth.prototype.playUpgradeSound = function (id) {
  */
 Nth.prototype.getCountHtml = function () {
   return floor(this.count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+};
+
+/**
+ * Upgrades all upgrades that have a set duration, calling their
+ * cb function once the duration has expired
+ */
+Nth.prototype.updateUpgradesWithDuration = function () {
+  for (var i = 0; i < this.upgradesWithDuration.length; i++) {
+    if (!this.upgradesWithDuration[i].duration--) {
+      this.upgradesWithDuration[i].cb();
+      delete this.upgradesWithDuration[i];
+      this.upgradesWithDurationArrayNeedsCleanup = true;
+    }
+  }
+  if (this.upgradesWithDurationArrayNeedsCleanup) {
+    this.upgradesWithDuration = this.upgradesWithDuration.filter(function (upgrade) {
+      return Boolean(upgrade);
+    });
+    this.upgradesWithDurationArrayNeedsCleanup = false;
+  }
+};
+
+/**
+ * Plays the click sound
+ */
+Nth.prototype.playNthSound = function () {
+  var audio = document.getElementById('nth_click_sound');
+  audio.currentTime = 0;
+  audio.play();
 };
 
 module.exports = Nth;

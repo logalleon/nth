@@ -2,7 +2,8 @@
 var Nth = require('./classes/Nth');
 
 // Globals
-var stretch = false,
+var fonts = ['Nu', 'NK', 'VT323', 'Space Mono'],
+  fontIndex = 0,
   game,
   $count,
   $nth,
@@ -26,13 +27,7 @@ window.dg = function (el) {
  * Changes the body font
  */
 function changeFont () {
-  if (stretch) {
-    document.body.style['font-family'] = 'Nu';
-    stretch = !stretch;
-  } else {
-    document.body.style['font-family'] = 'NK';
-    stretch = !stretch;
-  }
+  document.body.style['font-family'] = fonts[fontIndex++ % fonts.length];
   $message.innerHTML = 'font changed';
 }
 
@@ -61,7 +56,8 @@ window.setup = function () {
     $showUpgrades: $showUpgrades,
     $timer: $timer,
     $intro: $intro,
-    $totalRate: $totalRate
+    $totalRate: $totalRate,
+    $nth: $nth
   });
   game.initialize();
 
@@ -92,6 +88,7 @@ window.draw = function () {
   if (game.paused) {
   } else {
     game.grow();
+    game.updateUpgradesWithDuration();
     // Show this increase
     $count.innerHTML = game.getCountHtml();
   }
