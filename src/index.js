@@ -1,6 +1,8 @@
 /* global frameRate */
 var Nth = require('./classes/Nth');
 
+window.FRAMERATE = 30;
+
 // Globals
 var fonts = ['Nu', 'NK', 'VT323', 'Space Mono'],
   fontIndex = 0,
@@ -48,6 +50,7 @@ window.setup = function () {
   $goal = dg('goal');
   $totalRate = dg('totalRate');
   $names = document.querySelectorAll('.name');
+  $wrap = dg('wrap');
 
   game = new Nth({
     $count: $count,
@@ -57,7 +60,8 @@ window.setup = function () {
     $timer: $timer,
     $intro: $intro,
     $totalRate: $totalRate,
-    $nth: $nth
+    $nth: $nth,
+    $wrap: $wrap
   });
   game.initialize();
 
@@ -73,7 +77,7 @@ window.setup = function () {
   $goal.innerHTML = 'goal: ' + game.goal;
   game.runTimer();
   // Lock FPS to 30
-  frameRate(30);
+  frameRate(FRAMERATE);
 };
 
 /**

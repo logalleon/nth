@@ -1,5 +1,5 @@
 
-/* global floor */
+/* global floor, random, FRAMERATE */
 var Adders = require('../data/Adders');
 var Adder = require('./Adder');
 
@@ -21,11 +21,18 @@ var Nth = function (options) {
   this.$intro = options.$intro;
   this.$totalRate = options.$totalRate;
   this.$nth = options.$nth;
+  this.$wrap = options.$wrap;
 
   /**
    * An array of durations and callbacks to be updated each tick
    */
   this.upgradesWithDuration = [];
+
+  /**
+   * An array of random spawn events to be updated each tick
+   */
+  this.randomSpawnEvents = [];
+
   /**
    * Flags the upgrades array for a slice operation
    */
@@ -257,6 +264,7 @@ Nth.prototype.getCountHtml = function () {
  * cb function once the duration has expired
  */
 Nth.prototype.updateUpgradesWithDuration = function () {
+  // Update upgrades with fixed duration
   for (var i = 0; i < this.upgradesWithDuration.length; i++) {
     if (!this.upgradesWithDuration[i].duration--) {
       this.upgradesWithDuration[i].cb();
@@ -270,6 +278,15 @@ Nth.prototype.updateUpgradesWithDuration = function () {
     });
     this.upgradesWithDurationArrayNeedsCleanup = false;
   }
+  // Update random the spawners
+  // These don't need cleanup since the array should only grow
+  for (var i = 0; i < this.randomSpawnEvents.length; i++) {
+    if (!this.randomSpawnEvents[i].nextEventSpawnTimer--) {
+      var event = this.randomSpawnEvents[i];
+      // Pass game object reference
+      event.spawn(this);
+    }
+  }
 };
 
 /**
@@ -279,6 +296,39 @@ Nth.prototype.playNthSound = function () {
   var audio = document.getElementById('nth_click_sound');
   audio.currentTime = 0;
   audio.play();
+};
+
+/**
+ * Enables one of the random spawn events
+ * @param {String} randomSpawnerName - the name of the upgrade
+ */
+Nth.prototype.enableRandomSpawner = function (randomSpawnerName) {
+  if (randomSpawnerName === 'squares') {
+    this.randomSpawnEvents.push({
+      nextEventSpawnTimer: floor(random(1, 1.5)) * FRAMERATE,
+      spawn: function (nth) {
+        var span = document.createElement('span');
+        span.classList = 'randomEventSquare';
+        span.style.animation = this.duration + 's randomEventSquare 1';
+        span.style.top = floor(random(50, 300)) + 'px';
+        span.style.left = floor(random(50, 400)) + 'px';
+        span.onclick = function () {
+          nth.count += 10;
+          this.remove();
+        };
+        nth.$wrap.appendChild(span);
+        nth.upgradesWithDuration.push({
+          duration: this.duration * FRAMERATE,
+          cb: this.cb.bind(this, span)
+        });
+        this.nextEventSpawnTimer = floor(random(100, 200));
+      },
+      duration: 2.5,
+      cb: function (el) {
+        el.remove();
+      }
+    });
+  }
 };
 
 module.exports = Nth;

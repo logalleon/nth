@@ -38,7 +38,7 @@ var Upgrades = [
     cost : 6500,
     desc : 'increases delta rate to 0.003',
     enable : function (nth) {
-      nth.adders.delta.rate = 0.003;
+      nth.enableRandomSpawner('squares');
     }
   },
   {
